@@ -1,0 +1,6 @@
+{
+  "name": "Restaurant Quest",
+  "description": "Interactive B1–B2 English restaurant dialogue practice and sentence completion application.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
