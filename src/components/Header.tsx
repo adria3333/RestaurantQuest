@@ -1,5 +1,5 @@
 import React from 'react';
-import { Volume2, VolumeX, BookOpen, RotateCcw, Languages, Home } from 'lucide-react';
+import { Volume2, VolumeX, BookOpen, RotateCcw, Languages, Home, Database } from 'lucide-react';
 
 interface HeaderProps {
   lang: 'hu' | 'en';
@@ -7,6 +7,7 @@ interface HeaderProps {
   audioEnabled: boolean;
   setAudioEnabled: (enabled: boolean) => void;
   onOpenPhrasebook: () => void;
+  onOpenSupabaseSync?: () => void;
   onReset: () => void;
   onGoHome?: () => void;
   isAtHome?: boolean;
@@ -18,6 +19,7 @@ export const Header: React.FC<HeaderProps> = ({
   audioEnabled,
   setAudioEnabled,
   onOpenPhrasebook,
+  onOpenSupabaseSync,
   onReset,
   onGoHome,
   isAtHome = false
@@ -63,6 +65,20 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <Home className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">{lang === 'hu' ? 'Feladatok' : 'Tasks'}</span>
+            </button>
+          )}
+
+          {/* Supabase Database Sync Button */}
+          {onOpenSupabaseSync && (
+            <button
+              id="btn-open-supabase-sync"
+              onClick={onOpenSupabaseSync}
+              className="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-950/40 hover:bg-emerald-900/50 border border-emerald-500/40 text-emerald-300 transition-all flex items-center gap-1.5 shadow-xs"
+              title="Supabase Adatbázis & Ranglista"
+            >
+              <Database className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="hidden sm:inline">Supabase</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             </button>
           )}
 
@@ -119,3 +135,4 @@ export const Header: React.FC<HeaderProps> = ({
     </header>
   );
 };
+

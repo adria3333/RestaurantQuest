@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GameStats } from '../types';
-import { Award, CheckCircle2, XCircle, RotateCcw, ChevronDown, ChevronUp, Sparkles, BookOpen, Volume2 } from 'lucide-react';
+import { Award, CheckCircle2, XCircle, RotateCcw, ChevronDown, ChevronUp, Sparkles, BookOpen, Volume2, Database } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { speakEnglish } from '../utils/speech';
 
@@ -9,6 +9,7 @@ interface FinalStatsModalProps {
   totalQuestions: number;
   onRestart: () => void;
   onOpenPhrasebook: () => void;
+  onOpenSupabaseSync?: () => void;
   lang: 'hu' | 'en';
 }
 
@@ -17,10 +18,12 @@ export const FinalStatsModal: React.FC<FinalStatsModalProps> = ({
   totalQuestions,
   onRestart,
   onOpenPhrasebook,
+  onOpenSupabaseSync,
   lang
 }) => {
   const [showReview, setShowReview] = useState<boolean>(false);
   const percentage = Math.round((stats.score / totalQuestions) * 100);
+
 
   useEffect(() => {
     if (percentage >= 70) {
@@ -153,6 +156,17 @@ export const FinalStatsModal: React.FC<FinalStatsModalProps> = ({
           <RotateCcw className="w-4 h-4" />
           <span>{lang === 'hu' ? 'Új játék indítása' : 'Play Again'}</span>
         </button>
+
+        {onOpenSupabaseSync && (
+          <button
+            id="btn-open-supabase-final"
+            onClick={onOpenSupabaseSync}
+            className="px-5 py-3 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-700 hover:from-teal-500 hover:to-emerald-600 text-white font-bold text-sm shadow-md transition-all flex items-center gap-2"
+          >
+            <Database className="w-4 h-4 text-emerald-300" />
+            <span>{lang === 'hu' ? 'Mentés Supabase-be & Ranglista' : 'Save to Supabase'}</span>
+          </button>
+        )}
 
         <button
           id="btn-open-phrasebook-final"

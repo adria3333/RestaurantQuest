@@ -11,6 +11,8 @@ import { Task1Dialogue } from './components/Task1Dialogue';
 import { RooftopDiningView } from './components/RooftopDiningView';
 import { FinalStatsModal } from './components/FinalStatsModal';
 import { PhrasebookModal } from './components/PhrasebookModal';
+import { SupabaseSyncModal } from './components/SupabaseSyncModal';
+import { saveAnswerLogToSupabase } from './lib/supabase';
 
 type AppView = 'landing' | 'hub' | 'floor0' | 'floor1' | 'floor2' | 'floor3' | 'floor4' | 'summary';
 
@@ -18,6 +20,7 @@ export default function App() {
   const [lang, setLang] = useState<'hu' | 'en'>('hu');
   const [audioEnabled, setAudioEnabled] = useState<boolean>(true);
   const [isPhrasebookOpen, setIsPhrasebookOpen] = useState<boolean>(false);
+  const [isSupabaseModalOpen, setIsSupabaseModalOpen] = useState<boolean>(false);
 
   // App Navigation View State (starts on Restaurant Quest Landing)
   const [currentView, setCurrentView] = useState<AppView>('landing');
@@ -223,6 +226,7 @@ export default function App() {
         audioEnabled={audioEnabled}
         setAudioEnabled={setAudioEnabled}
         onOpenPhrasebook={() => setIsPhrasebookOpen(true)}
+        onOpenSupabaseSync={() => setIsSupabaseModalOpen(true)}
         onReset={handleRestart}
         onGoHome={handleGoHome}
         isAtHome={currentView === 'landing'}
@@ -333,6 +337,7 @@ export default function App() {
             totalQuestions={totalQuestions}
             onRestart={handleRestart}
             onOpenPhrasebook={() => setIsPhrasebookOpen(true)}
+            onOpenSupabaseSync={() => setIsSupabaseModalOpen(true)}
             lang={lang}
           />
         )}
@@ -343,6 +348,14 @@ export default function App() {
         isOpen={isPhrasebookOpen}
         onClose={() => setIsPhrasebookOpen(false)}
         lang={lang}
+      />
+
+      {/* Supabase Cloud Sync & Leaderboard Modal */}
+      <SupabaseSyncModal
+        isOpen={isSupabaseModalOpen}
+        onClose={() => setIsSupabaseModalOpen(false)}
+        lang={lang}
+        currentStats={gameStats}
       />
 
       {/* Footer */}
